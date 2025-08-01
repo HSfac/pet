@@ -1,5 +1,5 @@
 // 임시 즐겨찾기 관리 (실제로는 API 또는 데이터베이스 사용)
-let favorites = new Set<string>();
+const favorites = new Set<string>();
 
 export const favoriteService = {
   // 즐겨찾기 추가

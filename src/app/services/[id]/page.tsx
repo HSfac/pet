@@ -105,49 +105,49 @@ const mockServices = [
 ];
 
 // 임시 리뷰 데이터
-const mockReviews = [
-  {
-    id: '1',
-    serviceId: '1',
-    userName: '김민지',
-    userPet: '골든리트리버 "초코"',
-    rating: 5,
-    comment: '응급상황에서 24시간 병원을 찾을 수 있어서 정말 다행이었어요. 수의사 선생님도 친절하시고 진료도 꼼꼼히 해주셨습니다. 시설도 깨끗하고 최신 장비들이 잘 갖춰져 있어서 안심이 되었습니다.',
-    date: '2024-01-15',
-    helpful: 12
-  },
-  {
-    id: '2',
-    serviceId: '1',
-    userName: '박준호',
-    userPet: '웰시코기 "복이"',
-    rating: 5,
-    comment: '복이가 갑자기 아파서 새벽에 급하게 방문했는데, 대기시간도 짧고 빠르게 진료해주셔서 감사했습니다. 수술도 성공적으로 잘 되었고 지금은 건강하게 잘 지내고 있어요.',
-    date: '2024-01-10',
-    helpful: 8
-  },
-  {
-    id: '3',
-    serviceId: '1',
-    userName: '이수연',
-    userPet: '페르시안 고양이 "나비"',
-    rating: 4,
-    comment: '정기 검진 받으러 갔는데 매우 꼼꼼하게 검사해주시고 설명도 자세히 해주셨어요. 다만 주말이라 그런지 조금 혼잡했지만 전체적으로 만족합니다.',
-    date: '2024-01-05',
-    helpful: 5
-  }
-];
+// const mockReviews = [
+//   {
+//     id: '1',
+//     serviceId: '1',
+//     userName: '김민지',
+//     userPet: '골든리트리버 "초코"',
+//     rating: 5,
+//     comment: '응급상황에서 24시간 병원을 찾을 수 있어서 정말 다행이었어요. 수의사 선생님도 친절하시고 진료도 꼼꼼히 해주셨습니다. 시설도 깨끗하고 최신 장비들이 잘 갖춰져 있어서 안심이 되었습니다.',
+//     date: '2024-01-15',
+//     helpful: 12
+//   },
+//   {
+//     id: '2',
+//     serviceId: '1',
+//     userName: '박준호',
+//     userPet: '웰시코기 "복이"',
+//     rating: 5,
+//     comment: '복이가 갑자기 아파서 새벽에 급하게 방문했는데, 대기시간도 짧고 빠르게 진료해주셔서 감사했습니다. 수술도 성공적으로 잘 되었고 지금은 건강하게 잘 지내고 있어요.',
+//     date: '2024-01-10',
+//     helpful: 8
+//   },
+//   {
+//     id: '3',
+//     serviceId: '1',
+//     userName: '이수연',
+//     userPet: '페르시안 고양이 "나비"',
+//     rating: 4,
+//     comment: '정기 검진 받으러 갔는데 매우 꼼꼼하게 검사해주시고 설명도 자세히 해주셨어요. 다만 주말이라 그런지 조금 혼잡했지만 전체적으로 만족합니다.',
+//     date: '2024-01-05',
+//     helpful: 5
+//   }
+// ];
 
 export default function ServiceDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const [service, setService] = useState<any>(null);
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [service, setService] = useState<typeof mockServices[0] | null>(null);
+  const [reviews, setReviews] = useState<Array<{id: string; serviceId: string; userName: string; userPet: string; rating: number; comment: string; date: string; helpful: number}>>([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  const [editingReview, setEditingReview] = useState<any>(null);
+  const [editingReview, setEditingReview] = useState<{id: string; serviceId: string; userName: string; userPet: string; rating: number; comment: string; date: string; helpful: number} | null>(null);
 
   useEffect(() => {
     const serviceId = params?.id as string;
@@ -209,7 +209,7 @@ export default function ServiceDetailPage() {
     setIsReviewModalOpen(false);
   };
 
-  const handleEditReview = (review: any) => {
+  const handleEditReview = (review: {id: string; serviceId: string; userName: string; userPet: string; rating: number; comment: string; date: string; helpful: number}) => {
     setEditingReview(review);
     setIsReviewModalOpen(true);
   };

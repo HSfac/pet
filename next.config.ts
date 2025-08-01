@@ -17,11 +17,8 @@ const nextConfig: NextConfig = {
   
   // 빌드 최적화
   experimental: {
-    optimizeCss: true,
+    // optimizeCss: true, // critters 모듈 오류로 인해 비활성화
   },
-  
-  // 성능 최적화
-  swcMinify: true,
   
   // 보안 헤더
   async headers() {

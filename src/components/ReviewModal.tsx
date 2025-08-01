@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Button from './Button';
-import Rating from './Rating';
 
 interface ReviewModalProps {
   isOpen: boolean;

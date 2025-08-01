@@ -46,7 +46,7 @@ export default function ContactPage() {
         subject: '',
         message: ''
       });
-    } catch (error) {
+    } catch {
       alert('문의 제출에 실패했습니다. 다시 시도해주세요.');
     } finally {
       setIsSubmitting(false);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import SearchBar from '@/components/SearchBar';
 import ServiceCard from '@/components/ServiceCard';
@@ -98,7 +98,7 @@ const mockServices = [
   }
 ];
 
-export default function ServicesPage() {
+function ServicesPageContent() {
   const searchParams = useSearchParams();
   const [filteredServices, setFilteredServices] = useState(mockServices);
   const [selectedCategory, setSelectedCategory] = useState(searchParams?.get('category') || 'all');
@@ -307,5 +307,13 @@ export default function ServicesPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function ServicesPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ServicesPageContent />
+    </Suspense>
   );
 }

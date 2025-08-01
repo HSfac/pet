@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
@@ -228,7 +230,7 @@ export default function Home() {
                 </div>
                 
                 <p className="text-gray-700 leading-relaxed mb-3">
-                  "{review.review}"
+                  &quot;{review.review}&quot;
                 </p>
                 
                 <p className="text-sm text-primary font-medium">

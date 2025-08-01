@@ -11,7 +11,7 @@ interface Review {
 }
 
 // 임시 리뷰 데이터
-let reviews: Review[] = [
+const reviews: Review[] = [
   {
     id: '1',
     serviceId: '1',
