@@ -1,26 +1,55 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* PetCare Hub 컬러 팔레트 */
+  --primary: #FF6B6B;       /* 따뜻한 산호색 */
+  --secondary: #4ECDC4;     /* 민트 그린 */
+  --accent: #FFE66D;        /* 따뜻한 노란색 */
+  --background: #F7F7F7;    /* 밝은 회색 */
+  --foreground: #2C3E50;    /* 진한 회색 */
+  --white: #FFFFFF;
+  --card-bg: #FFFFFF;
 }
 
 @theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-white: var(--white);
+  --color-card: var(--card-bg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+}
+
+/* 부드러운 애니메이션과 반려동물 친화적 스타일 */
+* {
+  transition: all 0.3s ease;
+}
+
+/* 버튼 기본 스타일 */
+.btn-primary {
+  @apply bg-primary text-white px-6 py-3 rounded-full font-medium hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-white px-6 py-3 rounded-full font-medium hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl;
+}
+
+/* 카드 기본 스타일 */
+.card {
+  @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6;
+}
+
+/* 반려동물 친화적인 아이콘 애니메이션 */
+.pet-icon {
+  @apply transition-transform duration-300 hover:scale-110;
 }
