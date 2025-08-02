@@ -4,6 +4,45 @@ import Link from 'next/link';
 import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
 import ServiceCard from '@/components/ServiceCard';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+
+const AnimatedCounter = ({ end, duration = 2 }: { end: number; duration?: number }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTime: number | null = null;
+    const animate = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
+      setCount(Math.floor(progress * end));
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    requestAnimationFrame(animate);
+  }, [end, duration]);
+
+  return <span>{count}</span>;
+};
+
+const FloatingElement = ({ delay = 0, children, className = "" }: { delay?: number; children: React.ReactNode; className?: string }) => (
+  <motion.div
+    className={`absolute ${className}`}
+    animate={{
+      y: [0, -20, 0],
+      rotate: [0, 5, -5, 0],
+    }}
+    transition={{
+      duration: 6,
+      repeat: Infinity,
+      delay,
+      ease: "easeInOut"
+    }}
+  >
+    {children}
+  </motion.div>
+);
 
 export default function Home() {
   // 임시 데이터 (나중에 API로 교체)
@@ -51,36 +90,104 @@ export default function Home() {
   return (
     <div className="space-y-16">
       {/* 히어로 섹션 */}
-      <section className="bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 py-20">
-        <div className="container mx-auto px-4 text-center">
+      <section className="relative bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 py-20 overflow-hidden">
+        {/* 배경 애니메이션 요소들 */}
+        <div className="absolute inset-0">
+          <FloatingElement delay={0} className="top-10 left-10 w-20 h-20 opacity-20">
+            <div className="w-full h-full rounded-full bg-gradient-to-br from-primary to-secondary"></div>
+          </FloatingElement>
+          <FloatingElement delay={1} className="top-32 right-20 w-16 h-16 opacity-30">
+            <div className="w-full h-full rounded-full bg-gradient-to-br from-secondary to-accent"></div>
+          </FloatingElement>
+          <FloatingElement delay={2} className="bottom-20 left-32 w-12 h-12 opacity-25">
+            <div className="w-full h-full rounded-full bg-gradient-to-br from-accent to-primary"></div>
+          </FloatingElement>
+          <FloatingElement delay={0.5} className="bottom-32 right-10 w-24 h-24 opacity-15">
+            <div className="w-full h-full rounded-full bg-gradient-to-br from-primary to-secondary"></div>
+          </FloatingElement>
+          
+          {/* 반려동물 관련 아이콘들 */}
+          <FloatingElement delay={1.5} className="top-1/4 left-1/4 opacity-10">
+            <span className="text-4xl">🐶</span>
+          </FloatingElement>
+          <FloatingElement delay={2.5} className="top-1/3 right-1/3 opacity-10">
+            <span className="text-4xl">🐱</span>
+          </FloatingElement>
+        </div>
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-              당신의 반려동물을 위한 
-              <span className="text-primary block mt-2">최고의 서비스</span>
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+            <motion.h1 
+              className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+            >
+              <motion.span
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1, delay: 0.5 }}
+              >
+                당신의 반려동물을 위한
+              </motion.span>
+              <motion.span 
+                className="text-primary block mt-2"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1, delay: 0.8 }}
+              >
+                최고의 서비스
+              </motion.span>
+            </motion.h1>
+            
+            <motion.p 
+              className="text-xl text-gray-600 mb-8 leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1 }}
+            >
               신뢰할 수 있는 동물병원부터 전문 펫시터까지,<br />
-              반려동물에게 필요한 모든 서비스를 한 곳에서 찾아보세요.
-            </p>
+              <span className="text-primary font-semibold">반려동물에게 필요한 모든 서비스를</span> 한 곳에서 찾아보세요.
+            </motion.p>
             
             {/* 검색 바 */}
-            <div className="max-w-2xl mx-auto mb-8">
+            <motion.div 
+              className="max-w-2xl mx-auto mb-8"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1.2 }}
+            >
               <SearchBar 
                 placeholder="지역이나 서비스명을 검색해보세요..."
                 onSearch={handleSearch}
               />
-            </div>
+            </motion.div>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/services">
-                <Button size="lg" className="w-full sm:w-auto">
-                  🔍 서비스 찾기
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1.4 }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Link href="/services">
+                  <Button size="lg" className="w-full sm:w-auto shadow-lg hover:shadow-xl">
+                    🔍 서비스 찾기
+                  </Button>
+                </Link>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button variant="outline" size="lg" className="w-full sm:w-auto shadow-lg hover:shadow-xl">
+                  📞 긴급 연락처
                 </Button>
-              </Link>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                📞 긴급 연락처
-              </Button>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -243,24 +350,58 @@ export default function Home() {
       </section>
 
       {/* CTA 섹션 */}
-      <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            지금 바로 시작해보세요!
-          </h2>
-          <p className="text-xl mb-8 opacity-90">
-            반려동물을 위한 최고의 서비스를 찾아보세요
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/services">
-              <Button variant="secondary" size="lg" className="bg-white text-primary hover:bg-gray-100 w-full sm:w-auto">
-                서비스 둘러보기
-              </Button>
-            </Link>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary w-full sm:w-auto">
-              사업자 등록하기
-            </Button>
-          </div>
+      <section className="relative py-24 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent"></div>
+        <div className="absolute inset-0">
+          <div className="absolute top-10 left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+        
+        <div className="max-w-5xl mx-auto text-center text-white relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+          >
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              반려동물과 함께하는<br />
+              <span className="text-yellow-300">행복한 삶</span>을 시작하세요
+            </h2>
+            <p className="text-xl md:text-2xl mb-12 opacity-90 max-w-3xl mx-auto leading-relaxed">
+              전국 최고의 반려동물 서비스를<br />
+              지금 바로 만나보세요
+            </p>
+            
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Link href="/services">
+                  <Button variant="secondary" size="lg" className="bg-white text-primary hover:bg-yellow-50 px-12 py-5 rounded-full text-xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300">
+                    서비스 둘러보기
+                  </Button>
+                </Link>
+              </motion.div>
+              
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button variant="outline" size="lg" className="border-3 border-white text-white hover:bg-white hover:text-primary px-12 py-5 rounded-full text-xl font-bold transition-all duration-300">
+                  사업자 등록하기
+                </Button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
     </div>
